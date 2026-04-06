@@ -1,0 +1,29 @@
+<div class="page-wrapper">
+  <div class="page-header">
+    <button mat-button (click)="goBack()" class="back-btn">← Back</button>
+    @if (country(); as c) {
+      <h1 class="page-title">{{ c.name }} — Cities</h1>
+    }
+  </div>
+
+  @if (loading()) {
+    <div class="spinner-wrap"><mat-spinner diameter="40" /></div>
+  } @else {
+    <mat-list class="city-list">
+      @for (city of cities(); track city.id) {
+        <mat-list-item>
+          <span matListItemTitle>{{ city.name }}</span>
+        </mat-list-item>
+      }
+    </mat-list>
+
+    <mat-paginator
+      [length]="totalElements()"
+      [pageSize]="pageSize"
+      [pageIndex]="pageIndex()"
+      [pageSizeOptions]="[5]"
+      (page)="onPageChange($event)"
+      showFirstLastButtons>
+    </mat-paginator>
+  }
+</div>

@@ -1,0 +1,33 @@
+.page-wrapper {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.page-title {
+  font-size: 1.75rem;
+  margin: 0 0 1.5rem;
+  color: #f1f5f9;
+}
+
+.country-list {
+  background: #1e293b;
+  border-radius: 12px;
+  border: 1px solid #334155;
+  overflow: hidden;
+
+  mat-list-item {
+    cursor: pointer;
+    color: #f1f5f9;
+    border-bottom: 1px solid #334155;
+
+    &:last-child { border-bottom: none; }
+    &:hover { background: #263346; }
+  }
+}
+
+.spinner-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 3rem;
+}
