@@ -4,16 +4,16 @@ import com.geoexplorer.model.CountryDto;
 import com.geoexplorer.service.CountryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/countries")
@@ -25,26 +25,17 @@ public class CountryController {
     private final CountryService countryService;
 
     @GetMapping
-    @Operation(
-        summary = "List all countries",
-        description = "Returns all countries sorted alphabetically",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "Success",
-                content = @Content(array = @ArraySchema(schema = @Schema(implementation = CountryDto.class))))
-        }
-    )
-    public ResponseEntity<List<CountryDto>> getAllCountries() {
-        return ResponseEntity.ok(countryService.getAllCountries());
+    @Operation(summary = "List all countries", description = "Returns all countries sorted alphabetically")
+    public ResponseEntity<Page<CountryDto>> getAllCountries(
+            @ParameterObject @PageableDefault(size = 5, sort = "name", direction = Sort.Direction.ASC) Pageable pageable) {
+        return ResponseEntity.ok(countryService.getAllCountries(pageable));
     }
 
     @GetMapping("/{id}")
-    @Operation(
-        summary = "Get a country by ID",
-        responses = {
+    @Operation(summary = "Get a country by ID", responses = {
             @ApiResponse(responseCode = "200", description = "Found"),
             @ApiResponse(responseCode = "404", description = "Not found")
-        }
-    )
+    })
     public ResponseEntity<CountryDto> getCountry(
             @Parameter(description = "Country ID") @PathVariable Long id) {
         try {

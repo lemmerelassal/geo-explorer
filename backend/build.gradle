@@ -31,8 +31,8 @@ dependencies {
     // OpenAPI / Swagger
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0'
 
-    // H2 in-memory DB for demo; swap for real DB as needed
-    runtimeOnly 'com.h2database:h2'
+    // PostgreSQL driver
+    runtimeOnly 'org.postgresql:postgresql'
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'

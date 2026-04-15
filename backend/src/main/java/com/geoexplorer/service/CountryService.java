@@ -4,9 +4,9 @@ import com.geoexplorer.model.Country;
 import com.geoexplorer.model.CountryDto;
 import com.geoexplorer.repository.CountryRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -14,11 +14,8 @@ public class CountryService {
 
     private final CountryRepository countryRepository;
 
-    public List<CountryDto> getAllCountries() {
-        return countryRepository.findAllByOrderByNameAsc()
-                .stream()
-                .map(this::toDto)
-                .toList();
+    public Page<CountryDto> getAllCountries(Pageable pageable) {
+        return countryRepository.findAllByOrderByNameAsc(pageable).map(this::toDto);
     }
 
     public CountryDto getCountryById(Long id) {
@@ -28,9 +25,6 @@ public class CountryService {
     }
 
     private CountryDto toDto(Country c) {
-        return CountryDto.builder()
-                .id(c.getId())
-                .name(c.getName())
-                .build();
+        return new CountryDto(c.getId(), c.getName());
     }
 }

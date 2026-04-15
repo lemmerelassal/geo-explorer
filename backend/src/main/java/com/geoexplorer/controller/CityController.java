@@ -6,7 +6,11 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,10 +29,9 @@ public class CityController {
     )
     public ResponseEntity<Page<CityDto>> getCitiesByCountry(
             @Parameter(description = "Country ID") @PathVariable Long countryId,
-            @Parameter(description = "Page number (0-based)") @RequestParam(defaultValue = "0") int page,
-            @Parameter(description = "Page size") @RequestParam(defaultValue = "5") int size) {
+            @ParameterObject @PageableDefault(size = 5, sort = "name", direction = Sort.Direction.ASC) Pageable pageable) {
         try {
-            return ResponseEntity.ok(cityService.getCitiesByCountry(countryId, page, size));
+            return ResponseEntity.ok(cityService.getCitiesByCountry(countryId, pageable));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();
         }

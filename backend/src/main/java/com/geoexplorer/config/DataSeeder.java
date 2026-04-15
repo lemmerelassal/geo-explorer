@@ -31,6 +31,7 @@ public class DataSeeder implements CommandLineRunner {
         Country india     = countryRepository.save(Country.builder().name("India").build());
         Country australia = countryRepository.save(Country.builder().name("Australia").build());
         Country nigeria   = countryRepository.save(Country.builder().name("Nigeria").build());
+        Country luxembourg = countryRepository.save(Country.builder().name("Luxembourg").build());
 
         cityRepository.saveAll(List.of(
             City.builder().name("Paris").country(france).build(),
@@ -95,7 +96,16 @@ public class DataSeeder implements CommandLineRunner {
             City.builder().name("Ibadan").country(nigeria).build(),
             City.builder().name("Port Harcourt").country(nigeria).build(),
             City.builder().name("Benin City").country(nigeria).build(),
-            City.builder().name("Kaduna").country(nigeria).build()
+            City.builder().name("Kaduna").country(nigeria).build(),
+
+
+            City.builder().name("Luxembourg").country(luxembourg).build(),
+            City.builder().name("Esch-sur-Alzette").country(luxembourg).build(),
+            City.builder().name("Differdange").country(luxembourg).build(),
+            City.builder().name("Dudelange").country(luxembourg).build(),
+            City.builder().name("Bettembourg").country(luxembourg).build(),
+            City.builder().name("Pétange").country(luxembourg).build(),
+            City.builder().name("Strassen").country(luxembourg).build()
         ));
 
         log.info("Seeded {} countries, {} cities.", countryRepository.count(), cityRepository.count());
